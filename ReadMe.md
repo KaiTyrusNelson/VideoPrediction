@@ -21,4 +21,4 @@ Currently there are architectural issues with the Autoregressive model. Currentl
 ![Prediction](https://i.imgur.com/gJI4IV6.png)
 ![Ground Truth](https://i.imgur.com/iM7gaHp.png)
 
-This is likely due to the architecture not having adequate size, or missing residual connections within the blocks. This should be corrected, before moving on to the DDPM residuals, as the DDPM should mainly perform small corrections.
+This is likely due to the architecture not having adequate size, or the missing residual connections within the implementation within the upsample/downsample blocks. This should be corrected, before moving on to the DDPM residuals, as the DDPM should mainly perform small corrections.
