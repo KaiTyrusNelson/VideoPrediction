@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import convgru
+import Resblock
 
 class ResBlock_ConvGRU_Downsample(nn.Module):
     def __init__(self, in_channels, out_channels):
@@ -9,19 +10,11 @@ class ResBlock_ConvGRU_Downsample(nn.Module):
         self.out_channels = out_channels
 
         # ResBlock
-        
-        
-        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1)
-        self.bn1 = nn.BatchNorm2d(out_channels)
-        self.relu1 = nn.ReLU()
-        
-        self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1)
-        self.bn2 = nn.BatchNorm2d(out_channels)
-        self.relu2 = nn.ReLU()
+        res = Resblock.ResBlock(in_channels, out_channels)
         
         # ConvGRU TO MAKE
         
-        self.conv_gru = convgru.ConvGRU(out_channels, out_channels, 3)
+        self.conv_gru = convgru.ConvGRU(out_channels, 3)
         self.bn3 = nn.BatchNorm2d(out_channels)
         self.relu3 = nn.ReLU()
         
@@ -30,14 +23,7 @@ class ResBlock_ConvGRU_Downsample(nn.Module):
     
     def forward(self, x, hidden_state = None):
         # ResBlock
-        x = self.conv1(x)
-        x = self.relu1(x)
-        x = self.bn1(x)
-        
-        x = self.conv2(x)
-        x = self.relu2(x)
-        x = self.bn2(x)
-        
+        x = res(x)
         # ConvGRU
         
         h = self.conv_gru(x, hidden_state)
@@ -47,6 +33,7 @@ class ResBlock_ConvGRU_Downsample(nn.Module):
         # FIX THIS!!!! THIS NEEDS TO BE PASSED A HIDDEN STATE
         residual = x
         # TAKES THE RESIDUAL FOR CONCATENTATION
+        
         # Downsampling
         x = self.downsample(x)
         
