@@ -9,7 +9,7 @@ class ResBlock(nn.Module):
         self.output_channels = output_channels
         
         # NON-LINEAR FORWARD METHOD
-        self.Fw = nn.Sequential(
+            self.Fw = nn.Sequential(
             nn.Conv2d(input_channels, output_channels, kernel_size= kernel_size, padding = padding),
             nn.ReLU(),
             nn.BatchNorm2d(output_channels),
@@ -19,10 +19,11 @@ class ResBlock(nn.Module):
         )
         
         #LIEAR PROJECTION TO CONNECT RESIDUAL TO THE NON-LINEARITY
-        self.lin_proj = nn.Conv2d(input_channels, output_channels, kernel_size = 1, padding = 0)
+        self.lin_proj = nn.Conv2d(input_channels, output_channels, kernel_size = kernel_size, padding = padding)
 
         
     def forward(self, x):
+        
         
         x_new = self.Fw(x)
         
