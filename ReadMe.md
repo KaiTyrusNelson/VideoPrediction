@@ -1,6 +1,6 @@
 # Video Generation via Deep GRU U-Net with DDPM Correction
 
-This is an attempt to perform Deep Video Prediction via an Autoregressive ConvGRU and DDPM architecture. This is based off of (https://arxiv.org/pdf/2203.09481.pdf).
+This is an attempt to perform Deep Video Prediction via an Autoregressive ConvGRU U-net and DDPM. This is based off of (https://arxiv.org/pdf/2203.09481.pdf).
 
 ## Method
 
@@ -13,12 +13,17 @@ $$ y_{\theta}^t =\frac{x^t-\mu_\phi(x_{<t})}{\sigma}$$
 From there during sampling, the corrections can be applied, by prediction the true x, off of the incorrect previous prediction, and the DDPM residual correction:
 $$ \sigma y_{\theta}^t+\mu_\phi(x_{<t}) =x^t$$
 
+## Current Features
+
+As of current the Autoregressive model and Diffusion model architectures have been created, in addition to their respective training methods.
+
+Currently, the ConvGRU U-net must be retrained, before the diffusion model is trained to correct the residuals.
+
 ## Current Results
 
-Currently there are architectural issues with the Autoregressive model. Currently the trained version of the model lacks the ability to accurately model predictions on the MovingMNIST dataset which I chose to test on:
-
+The following are the previous results on the Prediction without diffusion:
 
 ![Prediction](https://i.imgur.com/gJI4IV6.png)
 ![Ground Truth](https://i.imgur.com/iM7gaHp.png)
 
-This is likely due to the architecture not having adequate size, or the missing residual connections within the implementation within the upsample/downsample blocks. This should be corrected, before moving on to the DDPM residuals, as the DDPM should mainly perform small corrections.
+This is currently being retrained, with a few architectural improvements, making the implementation adhere more strictly to the paper implementation.
